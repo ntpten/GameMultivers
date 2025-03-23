@@ -1,20 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Flappy Game</title>
   <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: 'Arial', sans-serif;
+    }
+
     canvas {
-      border: 1px solid #d3d3d3;
+      display: block;
+      border: 2px solid #444;
       background-color: #f1f1f1;
     }
+
+    .center-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 15px 30px;
+      font-size: 20px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .center-btn:hover {
+      background-color: #45a049;
+      transform: translate(-50%, -50%) scale(1.05);
+    }
   </style>
-  <body onload="startGame()">
-    <button onmousedown="accelerate(-0.2)" onmouseup="accelerate(0.05)">
-      FLY!
-    </button>
-    <script src="index.js" charset="UTF-8"></script>
-  </body>
+</head>
+
+<body>
+
+  <div id="gameOverScreen" style="display: none; position: absolute; top: 40%; left: 50%; 
+  transform: translate(-50%, -50%); text-align: center; font-family: Arial, sans-serif; color: #fff;">
+    <h1 style="font-size: 36px; margin-bottom: 10px;">Game Over</h1>
+    <p id="finalScore" style="font-size: 24px;">Score: 0</p>
+  </div>
+
+  <!-- ปุ่มเริ่มเกม -->
+  <button id="startBtn" class="center-btn">เริ่มเกม</button>
+
+  <!-- ปุ่มเริ่มใหม่ (ซ่อนไว้ตอนแรก) -->
+  <button id="restartBtn" class="center-btn" style="display: none;">เริ่มใหม่</button>
+
+  <!-- ลิงก์ JS -->
+  <script src="index.js"></script>
+</body>
+
 </html>
