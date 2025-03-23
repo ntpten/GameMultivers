@@ -1,62 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Flappy Game</title>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+        font-family: "Arial", sans-serif;
+        background-color: #eee8e8;
+      }
 
-<head>
-  <meta charset="UTF-8" />
-  <title>Flappy Game</title>
-  <style>
-    body {
-      margin: 0;
-      overflow: hidden;
-      font-family: 'Arial', sans-serif;
-    }
+      canvas {
+        display: block;
+        border: 2px solid #444;
+        background-color: #f1f1f1;
+      }
 
-    canvas {
-      display: block;
-      border: 2px solid #444;
-      background-color: #f1f1f1;
-    }
+      .center-btn {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 15px 30px;
+        font-size: 20px;
+        font-weight: bold;
+        border: none;
+        border-radius: 8px;
+        background-color: #4caf50;
+        color: white;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s ease;
+      }
 
-    .center-btn {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      padding: 15px 30px;
-      font-size: 20px;
-      font-weight: bold;
-      border: none;
-      border-radius: 8px;
-      background-color: #4CAF50;
-      color: white;
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-      transition: all 0.3s ease;
-    }
+      .center-btn:hover {
+        background-color: #45a049;
+        transform: translate(-50%, -50%) scale(1.05);
+      }
 
-    .center-btn:hover {
-      background-color: #45a049;
-      transform: translate(-50%, -50%) scale(1.05);
-    }
-  </style>
-</head>
+      .Description {
+        position: absolute;
+        top: 85%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 15px 30px;
+        font-size: 20px;
+        font-weight: bold;
+        border: none;
+        border-radius: 8px;
+        background-color: #112092;
+        color: white;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s ease;
+      }
 
-<body>
+      .Description:hover {
+        background-color: #490bda;
+        transform: translate(-50%, -50%) scale(1.05);
+      }
 
-  <div id="gameOverScreen" style="display: none; position: absolute; top: 40%; left: 50%; 
-  transform: translate(-50%, -50%); text-align: center; font-family: Arial, sans-serif; color: #fff;">
-    <h1 style="font-size: 36px; margin-bottom: 10px;">Game Over</h1>
-    <p id="finalScore" style="font-size: 24px;">Score: 0</p>
-  </div>
 
-  <!-- ปุ่มเริ่มเกม -->
-  <button id="startBtn" class="center-btn">เริ่มเกม</button>
+      .Subject {
+        position: absolute;
+        top: 5%;
+        left: 8.5%;
+        transform: translate(-50%, -50%);
+        padding: 15px 30px;
+        font-size: 20px;
+        font-weight: bold;
+        border: none;
+        border-radius: 8px;
+        background-color: #a3121a;
+        color: white;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s ease;
+      }
 
-  <!-- ปุ่มเริ่มใหม่ (ซ่อนไว้ตอนแรก) -->
-  <button id="restartBtn" class="center-btn" style="display: none;">เริ่มใหม่</button>
+      .Subject:hover {
+        background-color: #6a4978;
+        transform: translate(-50%, -50%) scale(1.05);
+      }
+    </style>
+  </head>
 
-  <!-- ลิงก์ JS -->
-  <script src="index.js"></script>
-</body>
+  <body>
+    <div
+      id="gameOverScreen"
+      style="
+        display: none;
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        font-family: Arial, sans-serif;
+        color: #fff;
+      "
+    >
+      <h1 style="font-size: 36px; margin-bottom: 10px">Game Over</h1>
+      <p id="finalScore" style="font-size: 24px">Score: 0</p>
+    </div>
 
+    <!-- ส่วนของ Space Bar -->
+    <div
+      id="spaceBarHint"
+      style="
+        display: none;
+        position: absolute;
+        top: 10%;
+        right: 1%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        font-family: Arial, sans-serif;
+        color: #fff;
+        padding: 20px;
+        background-color: rgba(0, 0, 0, 0.6);
+        border-radius: 20px;
+        font-size: 24px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        visibility: visible;
+      "
+    >
+      Space Bar
+    </div>
+    <!-- ------------------------------------------ -->
+    <h2 id="subject" class="Subject">MultiVers Group</h2>
+    <!-- ปุ่มเริ่มเกม -->
+    <button id="startBtn" class="center-btn">เริ่มเกม</button>
+    <h2 id="description" class="Description">
+      ** ใช้ปุ่ม Space bar ในการเล่น **
+    </h2>
+    <!-- ปุ่มเริ่มใหม่ (ซ่อนไว้ตอนแรก) -->
+    <button id="restartBtn" class="center-btn" style="display: none">
+      เริ่มใหม่
+    </button>
+
+    <!-- ลิงก์ JS -->
+    <script src="index.js"></script>
+  </body>
 </html>

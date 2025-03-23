@@ -18,7 +18,7 @@ function startGame() {
     myWaters = [];
     health = 100;
     gameOver = false;
-    gameSpeed = 1;
+    gameSpeed = 5;
 
     backgroundImg.src = "images/desert.png";
     backgroundImg.onload = function () {
@@ -159,7 +159,7 @@ function updateGameArea() {
         myGameArea.context.drawImage(backgroundImg, 0, 0, myGameArea.canvas.width, myGameArea.canvas.height);
     }
 
-    health -= 0.03;
+    health -= 0.23; //ปรับความเร็วน้ำ
 
     for (let i = 0; i < myObstacles.length; i++) {
         myObstacles[i].x += -1 * gameSpeed;
@@ -182,7 +182,7 @@ function updateGameArea() {
         myWaters[i].x += -1 * gameSpeed;
         myWaters[i].update();
         if (myGamePiece.crashWith(myWaters[i])) {
-            health = Math.min(health + 10, 100);
+            health = Math.min(health + 60, 100);  //health + ปรับค่าเพิ่มน้ำ, 100
             myWaters.splice(i, 1);
         }
     }
@@ -193,21 +193,21 @@ function updateGameArea() {
         let height = Math.floor(Math.random() * (300 - 100 + 1) + 100);
         let gap = Math.floor(Math.random() * (180 - 150 + 1) + 150);
         let width = Math.floor(Math.random() * (130 - 70 + 1)) + 70;
-        let newX = x + (myObstacles.length * sideGap) - 1050;
-    
+        let newX = x + (myObstacles.length * sideGap) - 750;
+
         myObstacles.push(new component(width, height, "blue", newX, 0, "obstacle"));
         myObstacles.push(new component(width, myGameArea.canvas.height - height - gap, "green", newX, height + gap, "obstacle"));
-    
+
         if (myObstacles.length % 4 === 0) {
             let waterX = newX + width / 2 - 15;
             let waterY = height + 10;
             if (Math.random() < 0.5) {
-                waterY = height + gap - 30;
+                waterY = height + gap - 40;
             }
             myWaters.push(new component(30, 30, "", waterX, waterY, "water"));
         }
     }
-    
+
 
     myScore.text = "SCORE: " + myGameArea.frameNo;
     myScore.update();
@@ -240,5 +240,100 @@ document.getElementById("startBtn").addEventListener("click", function () {
 document.getElementById("restartBtn").addEventListener("click", function () {
     document.getElementById("restartBtn").style.display = "none";
     document.getElementById("gameOverScreen").style.display = "none";
+    startGame();
+});
+
+// ---------------------------------------------
+
+// สอนของ space bar
+var spaceBarHint = document.getElementById("spaceBarHint");
+
+function startGame() {
+    document.getElementById("restartBtn").style.display = "none";
+    document.getElementById("gameOverScreen").style.display = "none";
+
+    // ซ่อนข้อความ "Space Bar" ในตอนเริ่มเกม
+    spaceBarHint.style.display = "none"; // เริ่มต้นซ่อนข้อความ "Space Bar"
+
+    if (birdFlapInterval) clearInterval(birdFlapInterval);
+
+    myObstacles = [];
+    myWaters = [];
+    health = 100;
+    gameOver = false;
+    gameSpeed = 5;
+
+    backgroundImg.src = "images/desert.png";
+    backgroundImg.onload = function () {
+        let birdWidth = window.innerWidth * 0.03;
+        let birdHeight = birdWidth;
+        let birdX = window.innerWidth * 0.15;
+
+        myGamePiece = new component(birdWidth, birdHeight, "blue", birdX, window.innerHeight / 2, "image");
+        myGamePiece.image.src = "images/bird/bird1.png";
+        myGamePiece.gravity = 0.1;
+        myScore = new component("30px", "Consolas", "black", 280, 40, "text");
+
+        myGameArea.start();
+
+        const birdImages = [
+            "images/bird/bird1.png",
+            "images/bird/bird2.png",
+            "images/bird/bird3.png"
+        ];
+        let currentBirdIndex = 0;
+
+        birdFlapInterval = setInterval(() => {
+            currentBirdIndex = (currentBirdIndex + 1) % birdImages.length;
+            myGamePiece.image.src = birdImages[currentBirdIndex];
+        }, 300);
+    };
+}
+
+// เพิ่มการแสดงข้อความ "Space Bar" เมื่อกดปุ่ม Space
+document.addEventListener("keydown", function (event) {
+    if (event.code === "Space") {
+        myGamePiece.gravitySpeed = -2.5;
+        spaceBarHint.style.display = "block"; // แสดงข้อความ Space Bar เมื่อกดปุ่ม
+    }
+});
+
+// ซ่อนข้อความ "Space Bar" เมื่อปล่อยปุ่ม Space
+document.addEventListener("keyup", function (event) {
+    if (event.code === "Space") {
+        spaceBarHint.style.display = "none"; // ซ่อนข้อความเมื่อปล่อยปุ่ม
+    }
+});
+
+// เริ่มเกมเมื่อคลิกปุ่มเริ่ม
+document.getElementById("startBtn").addEventListener("click", function () {
+    document.getElementById("startBtn").style.display = "none";
+    document.getElementById("gameOverScreen").style.display = "none";
+    startGame();
+});
+
+
+
+
+//Discription
+document.getElementById("startBtn").addEventListener("click", function () {
+    document.getElementById("startBtn").style.display = "none";
+    document.getElementById("gameOverScreen").style.display = "none";
+
+    // ซ่อนข้อความ "ใช้ปุ่ม ปุ่ม Space bar ในการเล่น" เมื่อเริ่มเกม
+    document.getElementById("description").style.display = "none";  // ซ่อนข้อความนี้
+
+    startGame();
+});
+
+
+//Subject
+document.getElementById("startBtn").addEventListener("click", function () {
+    document.getElementById("startBtn").style.display = "none";
+    document.getElementById("gameOverScreen").style.display = "none";
+
+    // ซ่อนข้อความ "ใช้ปุ่ม ปุ่ม Space bar ในการเล่น" เมื่อเริ่มเกม
+    document.getElementById("subject").style.display = "none";  // ซ่อนข้อความนี้
+
     startGame();
 });
