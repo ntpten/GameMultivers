@@ -3,7 +3,7 @@ var myObstacles = [];
 var myWaters = [];
 var myScore;
 var backgroundImg = new Image();
-var health = 200;
+var health = 100;
 var gameOver = false;
 var birdFlapInterval;
 var gameSpeed = 1;
@@ -159,10 +159,6 @@ function updateGameArea() {
         myGameArea.context.drawImage(backgroundImg, 0, 0, myGameArea.canvas.width, myGameArea.canvas.height);
     }
 
-    if (myGameArea.frameNo % 1500 === 0 && myGameArea.frameNo !== 0) {
-        gameSpeed += 0.2;
-    }
-
     health -= 0.03;
 
     for (let i = 0; i < myObstacles.length; i++) {
@@ -186,30 +182,32 @@ function updateGameArea() {
         myWaters[i].x += -1 * gameSpeed;
         myWaters[i].update();
         if (myGamePiece.crashWith(myWaters[i])) {
-            health = Math.min(health + 20, 100);
+            health = Math.min(health + 10, 100);
             myWaters.splice(i, 1);
         }
     }
 
     myGameArea.frameNo++;
-    if (myGameArea.frameNo == 1 || everyinterval(150)) {
+    if (myGameArea.frameNo == 1 || everyinterval(100)) {
         let x = myGameArea.canvas.width;
         let height = Math.floor(Math.random() * (300 - 100 + 1) + 100);
-        let gap = Math.floor(Math.random() * (160 - 130 + 1) + 130);
+        let gap = Math.floor(Math.random() * (180 - 150 + 1) + 150);
+        let width = Math.floor(Math.random() * (130 - 70 + 1)) + 70;
         let newX = x + (myObstacles.length * sideGap) - 1050;
-
-        myObstacles.push(new component(100, height, "blue", newX, 0, "obstacle"));
-        myObstacles.push(new component(100, myGameArea.canvas.height - height - gap, "green", newX, height + gap, "obstacle"));
-
+    
+        myObstacles.push(new component(width, height, "blue", newX, 0, "obstacle"));
+        myObstacles.push(new component(width, myGameArea.canvas.height - height - gap, "green", newX, height + gap, "obstacle"));
+    
         if (myObstacles.length % 4 === 0) {
-            let waterX = newX + 50;
+            let waterX = newX + width / 2 - 15;
             let waterY = height + 10;
             if (Math.random() < 0.5) {
-                waterY = height + gap - 20;
+                waterY = height + gap - 30;
             }
             myWaters.push(new component(30, 30, "", waterX, waterY, "water"));
         }
     }
+    
 
     myScore.text = "SCORE: " + myGameArea.frameNo;
     myScore.update();
@@ -217,6 +215,7 @@ function updateGameArea() {
     myGamePiece.update();
     healthBar.update();
 }
+
 
 function everyinterval(n) {
     return (myGameArea.frameNo / n) % 1 === 0;
