@@ -8,9 +8,13 @@ var gameOver = false;
 var birdFlapInterval;
 var gameSpeed = 1;
 
+var scene;
+
+
 function startGame() {
     document.getElementById("restartBtn").style.display = "none";
     document.getElementById("gameOverScreen").style.display = "none";
+    spaceBarHint.style.display = "none";
 
     if (birdFlapInterval) clearInterval(birdFlapInterval);
 
@@ -20,32 +24,36 @@ function startGame() {
     gameOver = false;
     gameSpeed = 5;
 
+    // เรียกใช้งาน scene ของ simpleGame.js
+    scene = new Scene();
+    scene.setSize(window.innerWidth, window.innerHeight);
+    scene.setPos(0, 0);
+    scene.setBG("skyblue");
+    scene.start();
+
     backgroundImg.src = "images/desert.png";
     backgroundImg.onload = function () {
-        let birdWidth = window.innerWidth * 0.03;
-        let birdHeight = birdWidth;
+        let birdWidth = window.innerWidth * 0.05;
+        let birdHeight = birdWidth * (96 / 128);
         let birdX = window.innerWidth * 0.15;
 
-        myGamePiece = new component(birdWidth, birdHeight, "blue", birdX, window.innerHeight / 2, "image");
-        myGamePiece.image.src = "images/bird/bird1.png";
-        myGamePiece.gravity = 0.1;
+        // ใช้ Sprite แทน component สำหรับนก
+        myGamePiece = new Sprite(scene, "images/bird/birdSheet.png", birdWidth, birdHeight);
+        myGamePiece.setPosition(birdX, window.innerHeight / 2);
+        myGamePiece.setDY(0);
+
+        // โหลด Animation
+        myGamePiece.loadAnimation(384, 96, 128, 96);
+        myGamePiece.generateAnimationCycles(SINGLE_ROW, 3);
+        myGamePiece.setCurrentCycle("cycle1");
+        myGamePiece.playAnimation();
+
         myScore = new component("30px", "Consolas", "black", 280, 40, "text");
 
         myGameArea.start();
-
-        const birdImages = [
-            "images/bird/bird1.png",
-            "images/bird/bird2.png",
-            "images/bird/bird3.png"
-        ];
-        let currentBirdIndex = 0;
-
-        birdFlapInterval = setInterval(() => {
-            currentBirdIndex = (currentBirdIndex + 1) % birdImages.length;
-            myGamePiece.image.src = birdImages[currentBirdIndex];
-        }, 300);
     };
 }
+
 
 var myGameArea = {
     canvas: null,
@@ -146,10 +154,15 @@ function component(width, height, color, x, y, type) {
         var otherbottom = otherobj.y + otherobj.height;
         return !(mybottom < othertop || mytop > otherbottom || myright < otherleft || myleft > otherright);
     };
+
+    
 }
 
 var sideGap = 80;
 var healthBar = new component(200, 30, "", 20, 20, "healthbar");
+
+
+
 
 function updateGameArea() {
     if (gameOver) return;
