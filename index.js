@@ -143,7 +143,7 @@ function component(width, height, color, x, y, type) {
             this.gravitySpeed = 0;
         }
     };
-    this.crashWith = function (otherobj) {
+    this.collidesWith = function (otherobj) {
         var myleft = this.x;
         var myright = this.x + this.width;
         var mytop = this.y;
@@ -177,7 +177,7 @@ function updateGameArea() {
     for (let i = 0; i < myObstacles.length; i++) {
         myObstacles[i].x += -1 * gameSpeed;
         myObstacles[i].update();
-        if (myGamePiece.crashWith(myObstacles[i])) {
+        if (myGamePiece.collidesWith(myObstacles[i])) {
             health = 0;
         }
     }
@@ -194,7 +194,7 @@ function updateGameArea() {
     for (let i = 0; i < myWaters.length; i++) {
         myWaters[i].x += -1 * gameSpeed;
         myWaters[i].update();
-        if (myGamePiece.crashWith(myWaters[i])) {
+        if (myGamePiece.collidesWith(myWaters[i])) {
             health = Math.min(health + 60, 100);  //health + ปรับค่าเพิ่มน้ำ, 100
             myWaters.splice(i, 1);
         }
