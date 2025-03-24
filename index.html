@@ -19,7 +19,7 @@
 
       .center-btn {
         position: absolute;
-        top: 50%;
+        top: 60%;
         left: 50%;
         transform: translate(-50%, -50%);
         padding: 15px 30px;
@@ -82,6 +82,21 @@
         background-color: #6a4978;
         transform: translate(-50%, -50%) scale(1.05);
       }
+
+      #imageContainer {
+        position: absolute;
+        top: 5%; /* ปรับตำแหน่งตามต้องการ */
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+      }
+
+      #imageContainer img {
+        width: 550px; /* กำหนดขนาดรูปภาพ */
+        height: auto;
+        display: block;
+        border: 5px solid chocolate;
+      }
     </style>
   </head>
 
@@ -96,7 +111,7 @@
         transform: translate(-50%, -50%);
         text-align: center;
         font-family: Arial, sans-serif;
-        color: #fff;
+        color: #ff0000;
       "
     >
       <h1 style="font-size: 36px; margin-bottom: 10px">Game Over</h1>
@@ -126,7 +141,12 @@
       Space Bar
     </div>
     <!-- ------------------------------------------ -->
-    <h2 id="subject" class="Subject">MultiVers Group</h2>
+    <h2 id="subject" class="Subject">Flappy Game</h2>
+
+    <div id="imageContainer">
+      <img src="images/present.png" alt="Present" />
+    </div>
+
     <!-- ปุ่มเริ่มเกม -->
     <button id="startBtn" class="center-btn">เริ่มเกม</button>
     <h2 id="description" class="Description">
@@ -137,7 +157,7 @@
       เริ่มใหม่
     </button>
 
-    <!-- ลิงก์ JS: โหลด simpleGame.js ก่อน index.js เพื่อให้ Sprite และอื่น ๆ พร้อมใช้ -->
+    <!-- ลิงก์ JS -->
     <script src="simpleGame.js"></script>
     <script src="index.js"></script>
   </body>

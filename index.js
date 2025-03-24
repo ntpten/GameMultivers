@@ -155,7 +155,7 @@ function component(width, height, color, x, y, type) {
         return !(mybottom < othertop || mytop > otherbottom || myright < otherleft || myleft > otherright);
     };
 
-    
+
 }
 
 var sideGap = 80;
@@ -328,25 +328,17 @@ document.getElementById("startBtn").addEventListener("click", function () {
 
 
 
-//Discription
+// ซ่อน
 document.getElementById("startBtn").addEventListener("click", function () {
     document.getElementById("startBtn").style.display = "none";
     document.getElementById("gameOverScreen").style.display = "none";
 
     // ซ่อนข้อความ "ใช้ปุ่ม ปุ่ม Space bar ในการเล่น" เมื่อเริ่มเกม
     document.getElementById("description").style.display = "none";  // ซ่อนข้อความนี้
-
-    startGame();
-});
-
-
-//Subject
-document.getElementById("startBtn").addEventListener("click", function () {
-    document.getElementById("startBtn").style.display = "none";
-    document.getElementById("gameOverScreen").style.display = "none";
-
-    // ซ่อนข้อความ "ใช้ปุ่ม ปุ่ม Space bar ในการเล่น" เมื่อเริ่มเกม
+    // ซ่อนข้อความ "ใช้ปุ่ม ปุ่ม Subject ในการเล่น" เมื่อเริ่มเกม
     document.getElementById("subject").style.display = "none";  // ซ่อนข้อความนี้
+    // ซ่อนข้อความ "ใช้ปุ่ม ปุ่ม Images ในการเล่น" เมื่อเริ่มเกม
+    document.getElementById("imageContainer").style.display = "none";  // ซ่อนข้อความนี้
 
     startGame();
 });
